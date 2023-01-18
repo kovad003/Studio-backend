@@ -1,4 +1,6 @@
-﻿namespace Domain;
+﻿using System.Runtime.InteropServices;
+
+namespace Domain;
 
 /// <summary>
 /// AUTHOR: @Dan
@@ -10,12 +12,11 @@ public class Project
     // Access modifiers must be public so EF can access 'em.
     public Guid Id { get; set; }
     public string Title { get; set; }
+    public bool IsActive { get; set; }
     public DateTime CreatedOn { get; set; }
+    public DateTime? CompletedOn { get; set; }
     public string Description { get; set; }
-    public string Client { get; set; }
     public string Image { get; set; }
-    // TODO 
-    // prop: Attachments
-    // prop: IsActive
-    // prop: CompletedOn 
+    public string Attachment { get; set; }
+    public string Client { get; set; }
 }
