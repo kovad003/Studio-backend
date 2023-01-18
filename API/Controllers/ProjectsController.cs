@@ -1,4 +1,6 @@
+using Application.Projects;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -7,22 +9,22 @@ namespace API.Controllers;
 
 public class ProjectsController : BaseController
 {
-    private readonly DataContext _context;
+    private readonly IMediator _mediator;
 
-    public ProjectsController(DataContext context)
+    public ProjectsController(IMediator mediator)
     {
-        _context = context;
+        _mediator = mediator;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<Project>>> GetProjects()
     {
-        return await _context.Projects.ToListAsync();
+        return await _mediator.Send(new List.Query());
     }
     
     [HttpGet("{id}")]
     public async Task<ActionResult<Project>> GetProject(Guid id)
     {
-        return await _context.Projects.FindAsync(id);
+        return Ok();
     }
 }
