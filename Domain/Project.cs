@@ -14,4 +14,8 @@ public class Project
     public string Description { get; set; }
     public string Client { get; set; }
     public string Image { get; set; }
+    // TODO 
+    // prop: Attachments
+    // prop: IsActive
+    // prop: CompletedOn 
 }
