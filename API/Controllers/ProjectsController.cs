@@ -1,9 +1,6 @@
 using Application.Projects;
 using Domain;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace API.Controllers;
 
@@ -18,6 +15,6 @@ public class ProjectsController : BaseController
     [HttpGet("{id}")]
     public async Task<ActionResult<Project>> GetProject(Guid id)
     {
-        return Ok();
+        return await Mediator.Send(new Read.Query{Id = id});
     }
 }
