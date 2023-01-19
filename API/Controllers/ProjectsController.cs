@@ -17,4 +17,10 @@ public class ProjectsController : BaseController
     {
         return await Mediator.Send(new Read.Query{Id = id});
     }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateProject(Project project)
+    {
+        return Ok(await Mediator.Send(new Create.Command { Project = project }));
+    }
 }
