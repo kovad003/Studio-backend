@@ -23,4 +23,12 @@ public class ProjectsController : BaseController
     {
         return Ok(await Mediator.Send(new Create.Command { Project = project }));
     }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProject(Guid id, Project project)
+    {
+        project.Id = id;
+        return Ok(await Mediator.Send(new Update.Command { Project = project }));
+    }
+
 }
