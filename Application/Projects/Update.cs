@@ -1,5 +1,6 @@
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -10,6 +11,14 @@ public class Update
     public class Command : IRequest
     {
         public Project Project { get; set; }
+    }
+    
+    public class CommandValidator : AbstractValidator<Create.Command>
+    {
+        public CommandValidator()
+        {
+            RuleFor(x => x.Project).SetValidator(new ProjectValidator());
+        }
     }
     
     public class Handler : IRequestHandler<Command>
