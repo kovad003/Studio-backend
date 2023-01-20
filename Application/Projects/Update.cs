@@ -1,3 +1,4 @@
+using Application.Core;
 using AutoMapper;
 using Domain;
 using FluentValidation;
@@ -8,7 +9,7 @@ namespace Application.Projects;
 
 public class Update
 {
-    public class Command : IRequest
+    public class Command : IRequest<Result<Unit>>
     {
         public Project Project { get; set; }
     }
@@ -21,7 +22,7 @@ public class Update
         }
     }
     
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
@@ -32,15 +33,19 @@ public class Update
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var project = await _dataContext.Projects.FindAsync(request.Project.Id);
+            //
+            if (project == null) return null;
 
             _mapper.Map(request.Project, project);
 
-            await _dataContext.SaveChangesAsync();
+            var result = await _dataContext.SaveChangesAsync() > 0;
 
-            return Unit.Value;
+            if (!result) return Result<Unit>.Failure("Failed to update project");
+            
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

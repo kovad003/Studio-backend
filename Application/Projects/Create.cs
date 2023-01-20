@@ -1,3 +1,4 @@
+using Application.Core;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -7,7 +8,7 @@ namespace Application.Projects;
 
 public class Create
 {
-    public class Command : IRequest
+    public class Command : IRequest<Result<Unit>>
     {
         public Project Project { get; set; }
     }
@@ -20,7 +21,7 @@ public class Create
         }
     }
     
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _dataContext;
 
@@ -29,13 +30,15 @@ public class Create
             _dataContext = dataContext;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             _dataContext.Projects.Add(request.Project);
 
-            await _dataContext.SaveChangesAsync();
-            
-            return  Unit.Value;
+            var result = await _dataContext.SaveChangesAsync() > 0;
+
+            if (!result) return Result<Unit>.Failure("Failed to create project");
+
+            return  Result<Unit>.Success(Unit.Value);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Application.Core;
 using MediatR;
 using Persistence;
 
@@ -5,12 +6,12 @@ namespace Application.Projects;
 
 public class Delete
 {
-    public class Command : IRequest
+    public class Command : IRequest<Result<Unit>>
     {
         public Guid Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _dataContext;
 
@@ -19,15 +20,19 @@ public class Delete
             _dataContext = dataContext;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var project = await _dataContext.Projects.FindAsync(request.Id);
+            
+            if (project == null) return null;
 
             _dataContext.Remove(project);
 
-            await _dataContext.SaveChangesAsync();
-            
-            return Unit.Value;
+            var result = await _dataContext.SaveChangesAsync() > 0;
+
+            if (!result) return Result<Unit>.Failure("Failed to delete project");
+
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }
