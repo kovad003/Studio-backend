@@ -10,3 +10,14 @@ dotnet ef database drop
 
 ### Dropping the latest migration
 Delete the whole migrations folder from the Persistence directory
+
+### Removing unneccessary files from GH tracing
+<p>For these items gitignore is not always working so you may need to remove them manually from tracing.</p>
+git rm -r API/obj
+git rm -r API/bin
+git rm -r Application/obj
+git rm -r Application/bin
+git rm -r Domain/bin
+git rm -r Domain/bin
+git rm -r Persistence/bin
+git rm -r Persistence/bin
