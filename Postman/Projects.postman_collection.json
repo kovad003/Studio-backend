@@ -1,0 +1,369 @@
+{
+	"info": {
+		"_postman_id": "77e20ff9-3cdf-4ea2-bdaa-4d28d70f5ac1",
+		"name": "Projects",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25122587"
+	},
+	"item": [
+		{
+			"name": "CRUD",
+			"item": [
+				{
+					"name": "Get All Projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/projects",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project {id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/projects/18e92bb1-3e8c-48dc-b278-4af167d36169",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"18e92bb1-3e8c-48dc-b278-4af167d36169"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require(\"moment\");\r",
+									"\r",
+									"pm.environment.set('createdOn', moment().add(14, 'days').toISOString());\r",
+									"pm.environment.set('completedOn', moment().add(28, 'days').toISOString());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{$guid}}\",\r\n    \"title\": \"Just a new project 5\",\r\n    \"isActive\": false,\r\n    \"createdOn\": \"{{createdOn}}\",\r\n    \"completedOn\": \"{{completedOn}}\",\r\n    \"description\": \"Description comes here...\",\r\n    \"image\": \"Images will be uploaded here...\",\r\n    \"attachment\": \"Attachments will be uploaded here...\",\r\n    \"client\": \"Just a client...\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/projects/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project {id}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require(\"moment\");\r",
+									"\r",
+									"pm.environment.set('createdOn', moment().add(14, 'days').toISOString());\r",
+									"pm.environment.set('completedOn', moment().add(28, 'days').toISOString());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Updated project\",\r\n    \"isActive\": false,\r\n    \"createdOn\": \"{{createdOn}}\",\r\n    \"completedOn\": \"{{completedOn}}\",\r\n    \"description\": \"Description comes here...\",\r\n    \"image\": \"Images will be uploaded here...\",\r\n    \"attachment\": \"Attachments will be uploaded here...\",\r\n    \"client\": \"Just a client...\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/projects/18e92bb1-3e8c-48dc-b278-4af167d36169",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"18e92bb1-3e8c-48dc-b278-4af167d36169"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project {id}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/projects/a6b8e696-8e28-4252-a276-b053a6f5d852",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"a6b8e696-8e28-4252-a276-b053a6f5d852"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Validation",
+			"item": [
+				{
+					"name": "Create Project: empty fields",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require(\"moment\");\r",
+									"\r",
+									"pm.environment.set('createdOn', moment().add(14, 'days').toISOString());\r",
+									"pm.environment.set('completedOn', moment().add(28, 'days').toISOString());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/projects/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project {id}: missing fields",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require(\"moment\");\r",
+									"\r",
+									"pm.environment.set('createdOn', moment().add(14, 'days').toISOString());\r",
+									"pm.environment.set('completedOn', moment().add(28, 'days').toISOString());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"\",\r\n    \"isActive\": false,\r\n    \"createdOn\": \"{{createdOn}}\",\r\n    \"completedOn\": \"{{completedOn}}\",\r\n    \"description\": \"Description comes here...\",\r\n    \"image\": \"Images will be uploaded here...\",\r\n    \"attachment\": \"Attachments will be uploaded here...\",\r\n    \"client\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/projects/18e92bb1-3e8c-48dc-b278-4af167d36169",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"18e92bb1-3e8c-48dc-b278-4af167d36169"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "X... Update Project {id}: no changes",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require(\"moment\");\r",
+									"\r",
+									"pm.environment.set('createdOn', moment().add(14, 'days').toISOString());\r",
+									"pm.environment.set('completedOn', moment().add(28, 'days').toISOString());\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"2nd try should fail\",\r\n    \"isActive\": false,\r\n    \"createdOn\": \"2023-02-03T11:04:02.15\",\r\n    \"completedOn\": \"2023-02-17T11:04:02.151\",\r\n    \"description\": \"Description comes here...\",\r\n    \"image\": \"Images will be uploaded here...\",\r\n    \"attachment\": \"Attachments will be uploaded here...\",\r\n    \"client\": \"client comes here\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/projects/18e92bb1-3e8c-48dc-b278-4af167d36169",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"18e92bb1-3e8c-48dc-b278-4af167d36169"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project {id}: non existent",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/projects/2aa58c82-1bfd-44d8-b64e-f4ec43faddcf",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"2aa58c82-1bfd-44d8-b64e-f4ec43faddcf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project {id}: non existent",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/projects/18e92bb1-3e8c-48dc-b278-4af167d36162",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"18e92bb1-3e8c-48dc-b278-4af167d36162"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
