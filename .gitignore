@@ -7,10 +7,14 @@
 appsettings.json
 
 # added by me
-Appliaction/obj
-Appliaction/bin
+Application/[Oo]bj
+Application/[Bb]in
 API/[Oo]bj
 API/[Bb]in
+Domain/[Oo]bj
+Domain/[Bb]in
+Persistence/[Oo]bj
+Persistence/[Bb]in
 *.cache
 *.dll
 *.pdb
