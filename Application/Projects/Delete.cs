@@ -24,7 +24,7 @@ public class Delete
         {
             var project = await _dataContext.Projects.FindAsync(request.Id);
             
-            // if (project == null) return null;
+            if (project == null) return null;
 
             _dataContext.Remove(project);
 
