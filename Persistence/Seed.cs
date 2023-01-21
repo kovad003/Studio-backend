@@ -17,13 +17,33 @@ namespace Persistence
                 {
                     new User
                     {
+                        UserName = "admin",
+                        FirstName = "Admin",
+                        LastName = "Admin",
+                        Bio = "About me...",
+                        Company = "Studio",
+                        Email = "admin@studio.com",
+                        PhoneNumber = "+35857312752"
+                    },
+                    new User
+                    {
                         UserName = "dave",
                         FirstName = "Dave",
                         LastName = "Vissers",
                         Bio = "About me...",
-                        Company = "Company-1",
-                        Email = "first1@test.com",
+                        Company = "Studio",
+                        Email = "dave@studio.com",
                         PhoneNumber = "+358587896754"
+                    },
+                    new User
+                    {
+                        UserName = "ricky",
+                        FirstName = "Ricky",
+                        LastName = "Spanish",
+                        Bio = "About me...",
+                        Company = "The Spashion Company",
+                        Email = "taina@client.com",
+                        PhoneNumber = "+35805683751"
                     },
                     new User
                     {
@@ -31,8 +51,8 @@ namespace Persistence
                         FirstName = "Taina",
                         LastName = "van Hauthem ",
                         Bio = "About me...",
-                        Company = "Company-2",
-                        Email = "first2@test.com",
+                        Company = "Salandro",
+                        Email = "taina@client.com",
                         PhoneNumber = "+35805899756"
                     }
                 };
