@@ -11,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // (Dependency Injection)
-builder.Services.AddControllers();
+builder.Services.AddControllers(option =>
+{
+    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    option.Filters.Add(new AuthorizeFilter(policy));
+});
 builder.Services.AddServiceExtensions(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 

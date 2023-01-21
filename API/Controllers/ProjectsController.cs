@@ -12,7 +12,7 @@ public class ProjectsController : BaseController
         var result = await Mediator.Send(new List.Query());
         return HandleResult(result);
     }
-    
+    // [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProject(Guid id)
     {
