@@ -1,0 +1,440 @@
+{
+	"info": {
+		"_postman_id": "0210e2f5-94a7-45e5-a04b-9f007ac5e1c0",
+		"name": "Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25122587"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "Login as Admin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin@studio.com\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login as Dave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"dave@studio.com\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login as Taina",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"taina@client.com\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login as Rick",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"ricky@spanish.com\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Error",
+					"item": [
+						{
+							"name": "Login as Admin: pwd validation error",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin@studio.com\",\r\n    \"password\": \"password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login as Admin: wrong password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin@studio.com\",\r\n    \"password\": \"p4s$sW000RD\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login as Admin: wrong email",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"admin@studio.uk\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Register",
+			"item": [
+				{
+					"name": "Success",
+					"item": [
+						{
+							"name": "Register User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userName\": \"flash_boiii\",\r\n    \"firstName\": \"Jason\",\r\n    \"lastName\": \"Voorhees\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Flashion LTD\",\r\n    \"avatar\": \"placeholder: Avatar\",\r\n    \"email\": \"jason@flashion.de\",\r\n    \"phoneNumber\": \"+35889512752\",\r\n    \"password\": \"Pa$$W0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Error",
+					"item": [
+						{
+							"name": "Register User: duplicate email",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userName\": \"rob98\",\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Kingston\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Studio\",\r\n    \"email\": \"admin@studio.com\",\r\n    \"phoneNumber\": \"+35853232752\",\r\n    \"avatar\": \"Avatar comes here...\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register User: duplicate username",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userName\": \"admin\",\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Kingston\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Studio\",\r\n    \"email\": \"rob@studio.com\",\r\n    \"phoneNumber\": \"+35853232752\",\r\n    \"avatar\": \"Avatar comes here...\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register User: weak password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userName\": \"rob98\",\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Kingston\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Studio\",\r\n    \"email\": \"rob@studio.com\",\r\n    \"phoneNumber\": \"+35853232752\",\r\n    \"avatar\": \"Avatar comes here...\",\r\n    \"password\": \"Password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register User: validation error",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userName\": \"$@&$$$\",\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Kingston\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Studio\",\r\n    \"email\": \"rob@studio.com\",\r\n    \"phoneNumber\": \"+35853232752\",\r\n    \"avatar\": \"Avatar comes here...\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register User: missing fields",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get Current User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRhdmUiLCJuYW1laWQiOiIyMTA2YTVmZS1lZjNkLTRjOGItODc1MS1kNTFhMzlmOTIzMzIiLCJlbWFpbCI6ImRhdmVAc3R1ZGlvLmNvbSIsIm5iZiI6MTY3NDM4ODAzNywiZXhwIjoxNjc4NTM1MjM3LCJpYXQiOjE2NzQzODgwMzd9.-itPZk53bleDhwVDuFtn73Z7lkl_auSQSvNfF6qvF-mNdm2vQ4eG8ppi1vDBoMPKOAhGcj8wkUZpvur0nBbbUw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/useraccount",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"useraccount"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

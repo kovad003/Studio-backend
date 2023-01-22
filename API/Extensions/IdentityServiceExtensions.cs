@@ -16,6 +16,7 @@ public static class IdentityServiceExtensions
             {
                 settings.Password.RequireNonAlphanumeric = false;
                 settings.Password.RequireUppercase = true;
+                settings.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<DataContext>();
 

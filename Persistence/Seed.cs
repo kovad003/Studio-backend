@@ -22,6 +22,7 @@ namespace Persistence
                         LastName = "Admin",
                         Bio = "About me...",
                         Company = "Studio",
+                        Avatar = "Avatar comes here...",
                         Email = "admin@studio.com",
                         PhoneNumber = "+35857312752"
                     },
@@ -32,6 +33,7 @@ namespace Persistence
                         LastName = "Vissers",
                         Bio = "About me...",
                         Company = "Studio",
+                        Avatar = "Avatar comes here...",
                         Email = "dave@studio.com",
                         PhoneNumber = "+358587896754"
                     },
@@ -42,7 +44,8 @@ namespace Persistence
                         LastName = "Spanish",
                         Bio = "About me...",
                         Company = "The Spashion Company",
-                        Email = "taina@client.com",
+                        Avatar = "Avatar comes here...",
+                        Email = "ricky@spanish.com",
                         PhoneNumber = "+35805683751"
                     },
                     new User
@@ -52,6 +55,7 @@ namespace Persistence
                         LastName = "van Hauthem ",
                         Bio = "About me...",
                         Company = "Salandro",
+                        Avatar = "Avatar comes here...",
                         Email = "taina@client.com",
                         PhoneNumber = "+35805899756"
                     }
