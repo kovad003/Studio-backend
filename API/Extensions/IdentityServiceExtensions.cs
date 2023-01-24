@@ -18,6 +18,7 @@ public static class IdentityServiceExtensions
                 settings.Password.RequireUppercase = true;
                 settings.User.RequireUniqueEmail = true;
             })
+            .AddRoles<Role>()
             .AddEntityFrameworkStores<DataContext>();
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
