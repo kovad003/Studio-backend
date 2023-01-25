@@ -14,16 +14,16 @@ public class ProjectsController : BaseController
         var result = await Mediator.Send(new List.Query());
         return HandleResult(result);
     }
-    // [Authorize]
+    [Authorize]
     // [Authorize(Policy = "some policy ??? id check??")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProject(Guid id)
     {
         var result = await Mediator.Send(new Read.Query{Id = id});
-
         return HandleResult(result);
     }
 
+    [Authorize(Roles = "Client")]
     [HttpPost]
     public async Task<IActionResult> CreateProject(Project project)
     {
@@ -31,6 +31,7 @@ public class ProjectsController : BaseController
         return HandleResult(result);
     }
     
+    [Authorize(Roles = "Client")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProject(Guid id, Project project)
     {
@@ -39,11 +40,11 @@ public class ProjectsController : BaseController
         return HandleResult(result);
     }
     
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProject(Guid id)
     {
         var result = await Mediator.Send(new Delete.Command { Id = id });
         return HandleResult(result);
     }
-
 }
