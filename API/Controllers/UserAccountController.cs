@@ -63,13 +63,13 @@ public class UserAccountController : ControllerBase
         };
 
         var result = await _userManager.CreateAsync(user, registerDto.Password);
-        var result2 = await _userManager.AddToRoleAsync(user, "Client");
-        
-        if (result.Succeeded)
-        {
-            return await CreateUserDto(user);
-        }
 
+        if (result.Succeeded)
+            result = await _userManager.AddToRoleAsync(user, registerDto.Role);
+           
+        if (result.Succeeded)
+            return await CreateUserDto(user);
+       
         return BadRequest(result.Errors);
     }
 
@@ -80,7 +80,6 @@ public class UserAccountController : ControllerBase
         var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
         return await CreateUserDto(user);
     }
-    
 
     private async Task<ActionResult<UserDto>> CreateUserDto(User user)
     {
