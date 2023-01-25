@@ -1,11 +1,13 @@
 using Application.Projects;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
 public class ProjectsController : BaseController
 {
+    [Authorize(Roles = "Admin, Assistant")]
     [HttpGet]
     public async Task<IActionResult> GetProjects()
     {
@@ -13,6 +15,7 @@ public class ProjectsController : BaseController
         return HandleResult(result);
     }
     // [Authorize]
+    // [Authorize(Policy = "some policy ??? id check??")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProject(Guid id)
     {
