@@ -59,11 +59,12 @@ public class UserAccountController : ControllerBase
             Bio = registerDto.Bio,
             Company = registerDto.Company,
             Avatar = registerDto.Avatar,
-            PhoneNumber = registerDto.PhoneNumber
+            PhoneNumber = registerDto.PhoneNumber,
         };
 
         var result = await _userManager.CreateAsync(user, registerDto.Password);
-
+        var result2 = await _userManager.AddToRoleAsync(user, "Client");
+        
         if (result.Succeeded)
         {
             return await CreateUserDto(user);
