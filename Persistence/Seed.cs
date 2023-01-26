@@ -6,12 +6,39 @@ namespace Persistence
     public class Seed
     {
         public static async Task SeedData(DataContext context, 
-            UserManager<User> userManager)
+            UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            Console.WriteLine("Seeding DB...");
+            Console.WriteLine("SEEDING DB...");
+            
+            if (!roleManager.Roles.Any())
+            {
+                Console.WriteLine("!!!! Seeding Roles...");
+                var roles = new List<Role>
+                {
+                    new Role
+                    {
+                        Name = "Admin"
+                    },
+                    new Role
+                    {
+                        Name = "Assistant"
+                    },
+                    new Role
+                    {
+                        Name = "Client"
+                    }
+                };
+                
+                foreach (var role in roles)
+                {
+                    var result = await roleManager.CreateAsync(role);
+                    Console.WriteLine(">>> Inserting ROLE resulted as:" + result);
+                }
+            }
+            
             if (!userManager.Users.Any())
             {
-                Console.WriteLine("Seeding Users table...");
+                Console.WriteLine("!!!! Seeding Users table...");
 
                 var users = new List<User>
                 {
@@ -64,12 +91,17 @@ namespace Persistence
                 foreach (var user in users)
                 {
                     var result = await userManager.CreateAsync(user, "Pa$$w0rd");
-                    Console.WriteLine("Inserting user resulted as:" + result);
+                    Console.WriteLine(">>> Inserting user resulted as:" + result);
                 }
+                
+                await userManager.AddToRoleAsync(users[0], "Admin");
+                await userManager.AddToRoleAsync(users[1], "Assistant");
+                await userManager.AddToRoleAsync(users[2], "Client");
+                await userManager.AddToRoleAsync(users[3], "Client");
             }
-            
+
             if (context.Projects.Any()) return;
-            Console.WriteLine("Seeding Projects table...");
+            Console.WriteLine("!!!! Seeding Projects table...");
             var activities = new List<Project>
             {
                 new Project

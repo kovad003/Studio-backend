@@ -14,6 +14,38 @@
 					"item": [
 						{
 							"name": "Login as Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const user = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Has properties\", function () {\r",
+											"    pm.expect(user).to.have.property('userName');\r",
+											"    pm.expect(user).to.have.property('firstName');\r",
+											"    pm.expect(user).to.have.property('lastName');\r",
+											"    pm.expect(user).to.have.property('bio');\r",
+											"    pm.expect(user).to.have.property('company');\r",
+											"    pm.expect(user).to.have.property('email');\r",
+											"    pm.expect(user).to.have.property('phoneNumber');\r",
+											"    pm.expect(user).to.have.property('avatar');\r",
+											"    pm.expect(user).to.have.property('token');\r",
+											"});\r",
+											"\r",
+											"if (pm.test(\"Has properties\")) {\r",
+											"    pm.globals.set('token', user.token);\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Global token has been set\", function() {\r",
+											"    var token = pm.globals.get('token');\r",
+											"    pm.expect(token).to.eql(user.token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -41,7 +73,39 @@
 							"response": []
 						},
 						{
-							"name": "Login as Dave",
+							"name": "Login as Dave (Assistant)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const user = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Has properties\", function () {\r",
+											"    pm.expect(user).to.have.property('userName');\r",
+											"    pm.expect(user).to.have.property('firstName');\r",
+											"    pm.expect(user).to.have.property('lastName');\r",
+											"    pm.expect(user).to.have.property('bio');\r",
+											"    pm.expect(user).to.have.property('company');\r",
+											"    pm.expect(user).to.have.property('email');\r",
+											"    pm.expect(user).to.have.property('phoneNumber');\r",
+											"    pm.expect(user).to.have.property('avatar');\r",
+											"    pm.expect(user).to.have.property('token');\r",
+											"});\r",
+											"\r",
+											"if (pm.test(\"Has properties\")) {\r",
+											"    pm.globals.set('token', user.token);\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Global token has been set\", function() {\r",
+											"    var token = pm.globals.get('token');\r",
+											"    pm.expect(token).to.eql(user.token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -69,7 +133,39 @@
 							"response": []
 						},
 						{
-							"name": "Login as Taina",
+							"name": "Login as Taina (Assistant)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const user = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Has properties\", function () {\r",
+											"    pm.expect(user).to.have.property('userName');\r",
+											"    pm.expect(user).to.have.property('firstName');\r",
+											"    pm.expect(user).to.have.property('lastName');\r",
+											"    pm.expect(user).to.have.property('bio');\r",
+											"    pm.expect(user).to.have.property('company');\r",
+											"    pm.expect(user).to.have.property('email');\r",
+											"    pm.expect(user).to.have.property('phoneNumber');\r",
+											"    pm.expect(user).to.have.property('avatar');\r",
+											"    pm.expect(user).to.have.property('token');\r",
+											"});\r",
+											"\r",
+											"if (pm.test(\"Has properties\")) {\r",
+											"    pm.globals.set('token', user.token);\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Global token has been set\", function() {\r",
+											"    var token = pm.globals.get('token');\r",
+											"    pm.expect(token).to.eql(user.token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -97,7 +193,39 @@
 							"response": []
 						},
 						{
-							"name": "Login as Rick",
+							"name": "Login as Rick (Client)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const user = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Has properties\", function () {\r",
+											"    pm.expect(user).to.have.property('userName');\r",
+											"    pm.expect(user).to.have.property('firstName');\r",
+											"    pm.expect(user).to.have.property('lastName');\r",
+											"    pm.expect(user).to.have.property('bio');\r",
+											"    pm.expect(user).to.have.property('company');\r",
+											"    pm.expect(user).to.have.property('email');\r",
+											"    pm.expect(user).to.have.property('phoneNumber');\r",
+											"    pm.expect(user).to.have.property('avatar');\r",
+											"    pm.expect(user).to.have.property('token');\r",
+											"});\r",
+											"\r",
+											"if (pm.test(\"Has properties\")) {\r",
+											"    pm.globals.set('token', user.token);\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Global token has been set\", function() {\r",
+											"    var token = pm.globals.get('token');\r",
+											"    pm.expect(token).to.eql(user.token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -227,10 +355,16 @@
 							"name": "Register User",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userName\": \"flash_boiii\",\r\n    \"firstName\": \"Jason\",\r\n    \"lastName\": \"Voorhees\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Flashion LTD\",\r\n    \"avatar\": \"placeholder: Avatar\",\r\n    \"email\": \"jason@flashion.de\",\r\n    \"phoneNumber\": \"+35889512752\",\r\n    \"password\": \"Pa$$W0rd\"\r\n}",
+									"raw": "{\r\n    \"userName\": \"flash_boiii\",\r\n    \"firstName\": \"Jason\",\r\n    \"lastName\": \"Voorhees\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Flashion LTD\",\r\n    \"avatar\": \"placeholder: Avatar\",\r\n    \"email\": \"jason@flashion.de\",\r\n    \"phoneNumber\": \"+35889512752\",\r\n    \"password\": \"Pa$$W0rd\",\r\n    \"role\": \"Client\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -410,7 +544,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRhdmUiLCJuYW1laWQiOiIyMTA2YTVmZS1lZjNkLTRjOGItODc1MS1kNTFhMzlmOTIzMzIiLCJlbWFpbCI6ImRhdmVAc3R1ZGlvLmNvbSIsIm5iZiI6MTY3NDM4ODAzNywiZXhwIjoxNjc4NTM1MjM3LCJpYXQiOjE2NzQzODgwMzd9.-itPZk53bleDhwVDuFtn73Z7lkl_auSQSvNfF6qvF-mNdm2vQ4eG8ppi1vDBoMPKOAhGcj8wkUZpvur0nBbbUw",
+						"value": "Bearer {{token}}",
 						"type": "text"
 					}
 				],

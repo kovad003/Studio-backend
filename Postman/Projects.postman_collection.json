@@ -34,7 +34,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Project {id}",
+					"name": "[WIP] Get Project {id}",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -46,14 +46,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}/api/projects/72a8da36-df2c-4f1f-85de-dd5be5b4603a",
+							"raw": "{{url}}/api/projects/13886B92-0851-4F6E-AB14-33B09795B0F1",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"projects",
-								"72a8da36-df2c-4f1f-85de-dd5be5b4603a"
+								"13886B92-0851-4F6E-AB14-33B09795B0F1"
 							]
 						}
 					},
@@ -87,7 +87,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"{{$guid}}\",\r\n    \"title\": \"Just a new project 1\",\r\n    \"isActive\": false,\r\n    \"createdOn\": \"{{createdOn}}\",\r\n    \"completedOn\": \"{{completedOn}}\",\r\n    \"description\": \"Description comes here...\",\r\n    \"image\": \"Images will be uploaded here...\",\r\n    \"attachment\": \"Attachments will be uploaded here...\",\r\n    \"client\": \"Just a client...\"\r\n}",
+							"raw": "{\r\n    \"id\": \"{{$guid}}\",\r\n    \"title\": \"Just a new project\",\r\n    \"isActive\": false,\r\n    \"createdOn\": \"{{createdOn}}\",\r\n    \"completedOn\": \"{{completedOn}}\",\r\n    \"description\": \"Description comes here...\",\r\n    \"image\": \"Images will be uploaded here...\",\r\n    \"attachment\": \"Attachments will be uploaded here...\",\r\n    \"client\": \"Just a client...\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -189,14 +189,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/projects/72a8da36-df2c-4f1f-85de-dd5be5b4603a",
+							"raw": "{{url}}/api/projects/A004BE6D-C987-4CEC-A8C7-2903C483093D",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"projects",
-								"72a8da36-df2c-4f1f-85de-dd5be5b4603a"
+								"A004BE6D-C987-4CEC-A8C7-2903C483093D"
 							]
 						}
 					},
@@ -458,9 +458,6 @@
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "noauth"
-			},
 			"event": [
 				{
 					"listen": "prerequest",
