@@ -11,5 +11,5 @@ public class User : IdentityUser
     public string Avatar { get; set; }
     
     // One-to-many rel:
-    public ICollection<Project> Projects { get; set; }
+    public ICollection<Project> Projects { get; set; } = new List<Project>();
 }
