@@ -19,4 +19,7 @@ public class Project
     public string Image { get; set; }
     public string Attachment { get; set; }
     public string Client { get; set; }
+
+    // One-to-many rel.
+    public User Owner { get; set; }
 }

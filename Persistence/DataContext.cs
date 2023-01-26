@@ -9,6 +9,19 @@ public class DataContext : IdentityDbContext<User, Role, string>
 
     public DbSet<Project> Projects { get; set; }
     
+    
+    // Entity Relationships can be configured here manually if that is necessary:
+    // protected override void OnModelCreating(ModelBuilder builder)
+    // {
+    //     base.OnModelCreating(builder);
+    //     
+    //     // configures one-to-many relationship
+    //     builder.Entity<Project>()
+    //         .HasOne(p => p.User)
+    //         .WithMany(a => a.Projects);
+    // }
+    
+    
     // protected override void OnModelCreating(ModelBuilder builder)
     // {
     //     builder.Entity<Role>()
