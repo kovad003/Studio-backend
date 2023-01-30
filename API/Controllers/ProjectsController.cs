@@ -15,7 +15,7 @@ public class ProjectsController : BaseController
         return HandleResult(result);
     }
 
-    [Authorize]
+    [Authorize (Policy = "OwnerOfProject")]
     // [Authorize(Policy = "some policy ??? id check??")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProject(Guid id)
