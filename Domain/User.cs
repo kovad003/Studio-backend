@@ -9,4 +9,7 @@ public class User : IdentityUser
     public string Bio { get; set; }
     public string Company { get; set; }
     public string Avatar { get; set; }
+    
+    // One-to-many rel:
+    public ICollection<Project> Projects { get; set; } = new List<Project>();
 }

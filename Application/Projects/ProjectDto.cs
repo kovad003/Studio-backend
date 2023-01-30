@@ -1,15 +1,10 @@
-﻿using System.Runtime.InteropServices;
+using Application.Profiles;
+using Domain;
 
-namespace Domain;
+namespace Application.Projects;
 
-/// <summary>
-/// AUTHOR: @Dan
-/// </summary>
-public class Project
+public class ProjectDto
 {
-    // Identifiers must be kept simple.
-    // EF will create primary keys / columns based on 'em.
-    // Access modifiers must be public so EF can access 'em.
     public Guid Id { get; set; }
     public string Title { get; set; }
     public bool IsActive { get; set; }
@@ -19,7 +14,6 @@ public class Project
     public string Image { get; set; }
     public string Attachment { get; set; }
     public string Client { get; set; }
-
-    // One-to-many rel.
-    public User Owner { get; set; }
+    
+    public Profile Owner { get; set; }
 }

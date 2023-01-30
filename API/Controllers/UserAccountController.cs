@@ -34,13 +34,14 @@ public class UserAccountController : ControllerBase
 
         if (result)
         {
-            return CreateUserDto(user);
+            return await CreateUserDto(user);
         }
 
         return Unauthorized();
     }
 
-    [AllowAnonymous]
+    // [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
@@ -58,16 +59,17 @@ public class UserAccountController : ControllerBase
             Bio = registerDto.Bio,
             Company = registerDto.Company,
             Avatar = registerDto.Avatar,
-            PhoneNumber = registerDto.PhoneNumber
+            PhoneNumber = registerDto.PhoneNumber,
         };
 
         var result = await _userManager.CreateAsync(user, registerDto.Password);
 
         if (result.Succeeded)
-        {
-            return CreateUserDto(user);
-        }
-
+            result = await _userManager.AddToRoleAsync(user, registerDto.Role);
+           
+        if (result.Succeeded)
+            return await CreateUserDto(user);
+       
         return BadRequest(result.Errors);
     }
 
@@ -76,10 +78,10 @@ public class UserAccountController : ControllerBase
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
         var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-        return CreateUserDto(user);
+        return await CreateUserDto(user);
     }
 
-    private UserDto CreateUserDto(User user)
+    private async Task<ActionResult<UserDto>> CreateUserDto(User user)
     {
         return new UserDto()
         {
@@ -91,7 +93,7 @@ public class UserAccountController : ControllerBase
             Avatar = user.Avatar,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            Token = _tokenService.CreateToken(user),
+            Token = await _tokenService.CreateToken(user),
         };
     }
 }
