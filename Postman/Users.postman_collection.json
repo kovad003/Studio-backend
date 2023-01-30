@@ -133,7 +133,7 @@
 							"response": []
 						},
 						{
-							"name": "Login as Taina (Assistant)",
+							"name": "Login as Taina (Client)",
 							"event": [
 								{
 									"listen": "test",
@@ -394,7 +394,13 @@
 							"name": "Register User: duplicate email",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"userName\": \"rob98\",\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Kingston\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Studio\",\r\n    \"email\": \"admin@studio.com\",\r\n    \"phoneNumber\": \"+35853232752\",\r\n    \"avatar\": \"Avatar comes here...\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
@@ -422,7 +428,13 @@
 							"name": "Register User: duplicate username",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"userName\": \"admin\",\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Kingston\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Studio\",\r\n    \"email\": \"rob@studio.com\",\r\n    \"phoneNumber\": \"+35853232752\",\r\n    \"avatar\": \"Avatar comes here...\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
@@ -450,7 +462,13 @@
 							"name": "Register User: weak password",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"userName\": \"rob98\",\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Kingston\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Studio\",\r\n    \"email\": \"rob@studio.com\",\r\n    \"phoneNumber\": \"+35853232752\",\r\n    \"avatar\": \"Avatar comes here...\",\r\n    \"password\": \"Password\"\r\n}",
@@ -478,7 +496,13 @@
 							"name": "Register User: validation error",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"userName\": \"$@&$$$\",\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Kingston\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Studio\",\r\n    \"email\": \"rob@studio.com\",\r\n    \"phoneNumber\": \"+35853232752\",\r\n    \"avatar\": \"Avatar comes here...\",\r\n    \"password\": \"Pa$$w0rd\"\r\n}",
@@ -506,7 +530,13 @@
 							"name": "Register User: missing fields",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{token}}",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{}",
