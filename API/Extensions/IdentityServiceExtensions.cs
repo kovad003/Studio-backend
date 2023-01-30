@@ -2,7 +2,6 @@ using System.Text;
 using API.Services;
 using Domain;
 using Infrastructure.Security;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -38,10 +37,23 @@ public static class IdentityServiceExtensions
             });
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("OwnerOfProject", policy =>
+            // Role-based Policies:
+            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+            options.AddPolicy("ClientOnly", policy => policy.RequireRole("Client"));
+            options.AddPolicy("AdminOrClient", policy => policy.RequireRole("Admin", "Client"));
+            options.AddPolicy("AdminOrAssistant", policy => policy.RequireRole("Admin", "Assistant"));
+
+            // Custom / Combined Policies & Requirements:
+            options.AddPolicy("OwnerOnly", policy =>
             {
-                policy.Requirements.Add(new OwnershipRequirement());
+                policy.Requirements.Add(new RoleOrOwnershipRequirement());
             });
+            options.AddPolicy("OwnerOrStudio", policy => 
+                policy.Requirements.Add(
+                new RoleOrOwnershipRequirement()
+                {
+                    Roles = new []{"Admin", "Assistant"}
+                }));
         });
         services.AddTransient<IAuthorizationHandler, OwnershipRequirementHandler>();
         services.AddScoped<TokenService>();
