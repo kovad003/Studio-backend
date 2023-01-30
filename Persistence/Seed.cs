@@ -8,8 +8,9 @@ namespace Persistence
         public static async Task SeedData(DataContext context, 
             UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            Console.WriteLine("SEEDING DB...");
+            var clients = new List<User>();
             
+            Console.WriteLine("SEEDING DB...");
             if (!roleManager.Roles.Any())
             {
                 Console.WriteLine("!!!! Seeding Roles...");
@@ -98,6 +99,14 @@ namespace Persistence
                 await userManager.AddToRoleAsync(users[1], "Assistant");
                 await userManager.AddToRoleAsync(users[2], "Client");
                 await userManager.AddToRoleAsync(users[3], "Client");
+                
+
+                foreach (var user in users)
+                {
+                    var roles = await userManager.GetRolesAsync(user);
+                    if (roles[0] == "Client")
+                        clients.Add(user);
+                }
             }
 
             if (context.Projects.Any()) return;
@@ -115,7 +124,8 @@ namespace Persistence
                                   "outdoors. Also take some images inside (studio environment)",
                     Image = "Images will be uploaded here",
                     Attachment = "Attachments will be uploaded here",
-                    Client = "Bruce Fashion Corporation",
+                    Client = "PROP IS TO BE REMOVED",
+                    Owner = clients[0]
                 },
                 new Project
                 {
@@ -128,7 +138,8 @@ namespace Persistence
                                   "a river bank.",
                     Image = "Images will be uploaded here",
                     Attachment = "Attachments will be uploaded here",
-                    Client = "Rabbit Run",
+                    Client = "PROP IS TO BE REMOVED",
+                    Owner = clients[0]
                 },
                 new Project
                 {
@@ -140,7 +151,8 @@ namespace Persistence
                                   "wear red soccer jersey (it will be sent with the package).",
                     Image = "Images will be uploaded here",
                     Attachment = "Attachments will be uploaded here",
-                    Client = "Voetbal-Bond",
+                    Client = "PROP IS TO BE REMOVED",
+                    Owner = clients[1]
                 }
             };
 

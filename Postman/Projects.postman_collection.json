@@ -10,6 +10,10 @@
 			"name": "CRUD",
 			"item": [
 				{
+					"name": "Client",
+					"item": []
+				},
+				{
 					"name": "Get All Projects",
 					"request": {
 						"method": "GET",
@@ -34,7 +38,32 @@
 					"response": []
 				},
 				{
-					"name": "[WIP] Get Project {id}",
+					"name": "Get All Projects As Client",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/projects/getprojectsasclient",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"projects",
+								"getprojectsasclient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project {id}",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -46,14 +75,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}/api/projects/13886B92-0851-4F6E-AB14-33B09795B0F1",
+							"raw": "{{url}}/api/projects/8d0a8e94-a373-4209-9785-1849837fd0c5",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"projects",
-								"13886B92-0851-4F6E-AB14-33B09795B0F1"
+								"8d0a8e94-a373-4209-9785-1849837fd0c5"
 							]
 						}
 					},
