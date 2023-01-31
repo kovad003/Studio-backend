@@ -15,8 +15,14 @@
     * CTRL + C (First click on the terminal window)
 
 ## Important Information
+### Hot Reload
 * Smaller code changes should be applied automatically by hot reload.
 * It is better to restart the app by pressing CTRL + R (First click on the terminal window).
+### Excluded files
+* Files containing sensitive information (Secrets, keys) are excluded from the repository because of security reasons.
+* You need to set up this file manually on your PC so you can use all the features of the app.
+* This applies to the following files:
+  * API/appsettings.json
 
 ## Attachments
 * In the Postman folder you can find Postman collections. Import them into your Postman so you can test the Endpoints of the application.
