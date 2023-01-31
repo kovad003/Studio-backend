@@ -8,6 +8,7 @@ public class DataContext : IdentityDbContext<User, Role, string>
     public DataContext(DbContextOptions options) : base(options) { }
 
     public DbSet<Project> Projects { get; set; }
+    public DbSet<Photo> Photos { get; set; }
     
     
     // Entity Relationships can be configured here manually if that is necessary:

@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Projects;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,10 @@ public static class ServiceExtensions
         services.AddValidatorsFromAssemblyContaining<Create>();
         services.AddHttpContextAccessor();
         services.AddScoped<IUserAccessor, UserAccessor>();
-
+        services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+        // String must match with attribute within appsettings.json:
+        services.Configure<PhotoCloudSettings>(configuration.GetSection("Cloudinary"));
+        
         return services;
     }
 }
