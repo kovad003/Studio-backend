@@ -1,3 +1,4 @@
+using System.Reflection;
 using Application.Core;
 using Application.Interfaces;
 using Application.Projects;
@@ -30,6 +31,7 @@ public static class ServiceExtensions
                 policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
             });
         });
+        // services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddMediatR(typeof(List.Handler));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
         services.AddFluentValidationAutoValidation();

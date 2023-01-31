@@ -15,8 +15,8 @@ public class PhotoAccessor : IPhotoAccessor
     {
         var account = new Account(
             configuration.Value.CloudName,
-            configuration.Value.Key,
-            configuration.Value.Secret
+            configuration.Value.ApiKey,
+            configuration.Value.ApiSecret
         );
         _cloudinary = new Cloudinary(account);
     }
