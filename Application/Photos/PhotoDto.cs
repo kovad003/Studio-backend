@@ -7,7 +7,7 @@ public class PhotoDto
 
     // One-to-many Props
     // Project table
-    public string ProjectId { get; set; }
+    public Guid ProjectId { get; set; }
     public string ProjectOwner { get; set; }
     // User table
     public string UploaderId { get; set; }
