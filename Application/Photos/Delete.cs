@@ -37,7 +37,8 @@ public class Delete
                 .Failure("Problem with User!");
 
             // Getting Photo
-            var photo = user.Photos
+            // var photo = user.Photos
+            var photo = _context.Photos
                 .FirstOrDefault(x => x.Id == request.Id);
             if (photo == null) return Result<Unit>
                 .Failure("Problem with Photo!");
