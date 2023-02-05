@@ -41,6 +41,7 @@ public static class ServiceExtensions
         services.AddScoped<IPhotoAccessor, PhotoAccessor>();
         // String must match with attribute within appsettings.json:
         services.Configure<PhotoCloudSettings>(configuration.GetSection("Cloudinary"));
+        services.AddSignalR();
         
         return services;
     }

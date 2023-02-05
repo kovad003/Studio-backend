@@ -1,3 +1,4 @@
+using Application.Comments;
 using Application.Photos;
 using Application.Projects;
 using AutoMapper;
@@ -26,5 +27,10 @@ public class MappingProfiles : Profile
 
         CreateMap<Photo, PhotoDto>();
         // .ForMember()
+        
+        CreateMap<Comment, CommentDto>()
+            .ForMember(destination => destination.FirstName, option => option.MapFrom(source => source.Author.FirstName))
+            .ForMember(destination => destination.Body, option => option.MapFrom(source => source.Body))
+            .ForMember(destination => destination.CreatedAt, option => option.MapFrom(source => source.CreatedAt));
     }
 }
