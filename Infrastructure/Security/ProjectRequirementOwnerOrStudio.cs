@@ -7,12 +7,12 @@ using Persistence;
 
 namespace Infrastructure.Security;
 
-public class RoleOrOwnershipRequirement : IAuthorizationRequirement
+public class ProjectRequirementOwnerOrStudio : IAuthorizationRequirement
 {
     public string[] Roles { get; set; }
 }
 
-public class OwnershipRequirementHandler : AuthorizationHandler<RoleOrOwnershipRequirement>
+public class OwnershipRequirementHandler : AuthorizationHandler<ProjectRequirementOwnerOrStudio>
 {
     private readonly DataContext _dbContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -25,7 +25,7 @@ public class OwnershipRequirementHandler : AuthorizationHandler<RoleOrOwnershipR
     }
 
     protected override Task HandleRequirementAsync(
-        AuthorizationHandlerContext authContext, RoleOrOwnershipRequirement requirement)
+        AuthorizationHandlerContext authContext, ProjectRequirementOwnerOrStudio requirement)
     {
         // Getting UserID
         var userId = authContext.User.FindFirstValue(ClaimTypes.NameIdentifier);

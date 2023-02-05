@@ -46,14 +46,20 @@ public static class IdentityServiceExtensions
             // Custom / Combined Policies & Requirements:
             options.AddPolicy("OwnerOnly", policy =>
             {
-                policy.Requirements.Add(new RoleOrOwnershipRequirement());
+                policy.Requirements.Add(new ProjectRequirementOwnerOrStudio());
             });
-            options.AddPolicy("OwnerOrStudio", policy => 
+            options.AddPolicy("ProjectOwnerOrStudio", policy => 
                 policy.Requirements.Add(
-                new RoleOrOwnershipRequirement()
+                new ProjectRequirementOwnerOrStudio()
                 {
                     Roles = new []{"Admin", "Assistant"}
                 }));
+            // options.AddPolicy("PhotoOwnerOrStudio", policy => 
+            //     policy.Requirements.Add(
+            //     new PhotoRequirementOwnerOrStudio()
+            //     {
+            //         Roles = new []{"Admin", "Assistant"}
+            //     }));
         });
         services.AddTransient<IAuthorizationHandler, OwnershipRequirementHandler>();
         services.AddScoped<TokenService>();

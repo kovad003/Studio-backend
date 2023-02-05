@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "f8542661-8205-4d3d-a81c-a469f48e61b5",
+		"name": "Photos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25122587"
+	},
+	"item": [
+		{
+			"name": "AddPhoto {proj_id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "File",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/photos/1ce3742f-39b9-4aee-9960-f5b641069b9d",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"photos",
+						"1ce3742f-39b9-4aee-9960-f5b641069b9d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePhoto {photo_id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/photos/rkajhvspdahe7aevyiuu",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"photos",
+						"rkajhvspdahe7aevyiuu"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

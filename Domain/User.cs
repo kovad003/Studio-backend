@@ -12,4 +12,5 @@ public class User : IdentityUser
     
     // One-to-many rel:
     public ICollection<Project> Projects { get; set; } = new List<Project>();
+    public ICollection<Photo> Photos { get; set; }
 }

@@ -4,7 +4,7 @@
 .vscode/
 
 # appsettings
-appsettings.json
+API/appsettings.json
 
 # added by me
 Application/[Oo]bj
@@ -496,3 +496,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+

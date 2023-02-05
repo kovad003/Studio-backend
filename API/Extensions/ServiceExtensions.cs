@@ -1,8 +1,10 @@
+using System.Reflection;
 using Application.Core;
 using Application.Interfaces;
 using Application.Projects;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,13 +31,17 @@ public static class ServiceExtensions
                 policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
             });
         });
+        // services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddMediatR(typeof(List.Handler));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining<Create>();
         services.AddHttpContextAccessor();
         services.AddScoped<IUserAccessor, UserAccessor>();
-
+        services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+        // String must match with attribute within appsettings.json:
+        services.Configure<PhotoCloudSettings>(configuration.GetSection("Cloudinary"));
+        
         return services;
     }
 }
