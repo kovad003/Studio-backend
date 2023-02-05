@@ -18,6 +18,8 @@ builder.Services.AddControllers(option =>
     option.Filters.Add(new AuthorizeFilter(policy));
 });
 
+builder.Configuration.AddJsonFile("appsettings.json").AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+
 // Debugging
 Console.WriteLine("debug: Environment: {0}", builder.Environment.EnvironmentName);
 foreach (var c in builder.Configuration.AsEnumerable())
