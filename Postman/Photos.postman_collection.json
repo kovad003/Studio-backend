@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "AddPhoto",
+			"name": "AddPhoto {proj_id}",
 			"event": [
 				{
 					"listen": "test",
@@ -39,14 +39,39 @@
 					]
 				},
 				"url": {
-					"raw": "{{url}}/api/photos/0d9834b6-6f90-4092-ad71-17d52ad587e9",
+					"raw": "{{url}}/api/photos/1ce3742f-39b9-4aee-9960-f5b641069b9d",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"photos",
-						"0d9834b6-6f90-4092-ad71-17d52ad587e9"
+						"1ce3742f-39b9-4aee-9960-f5b641069b9d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePhoto {photo_id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/photos/rkajhvspdahe7aevyiuu",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"photos",
+						"rkajhvspdahe7aevyiuu"
 					]
 				}
 			},
