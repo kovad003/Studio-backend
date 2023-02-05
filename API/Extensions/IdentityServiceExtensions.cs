@@ -34,6 +34,18 @@ public static class IdentityServiceExtensions
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+                // Authenticating to SignalR
+                option.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                            context.Token = accessToken;
+                        return Task.CompletedTask;
+                    }
+                };
             });
         services.AddAuthorization(options =>
         {
