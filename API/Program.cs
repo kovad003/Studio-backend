@@ -17,6 +17,15 @@ builder.Services.AddControllers(option =>
     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
     option.Filters.Add(new AuthorizeFilter(policy));
 });
+
+// Debugging
+Console.WriteLine("debug: Environment: {0}", builder.Environment.EnvironmentName);
+foreach (var c in builder.Configuration.AsEnumerable())
+{
+    Console.WriteLine("debug: enum config: " + c.Key + " = " + c.Value);
+}
+// end
+
 builder.Services.AddServiceExtensions(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
