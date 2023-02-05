@@ -22,5 +22,6 @@ public class Project
 
     // One-to-many rel.
     public User Owner { get; set; }
-    public ICollection<Photo> Photos { get; set; }
+    public ICollection<Photo> Photos { get; set; } = new List<Photo>();
+    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }
