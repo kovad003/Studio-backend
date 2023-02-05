@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+var env = builder.Environment.EnvironmentName;
 
 // Add services to the container.
 // (Dependency Injection)
@@ -18,10 +19,10 @@ builder.Services.AddControllers(option =>
     option.Filters.Add(new AuthorizeFilter(policy));
 });
 
-builder.Configuration.AddJsonFile("appsettings.json").AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+builder.Configuration.AddJsonFile("appsettings.json").AddJsonFile($"appsettings.{env}.json", optional: true);
 
 // Debugging
-Console.WriteLine("debug: Environment: {0}", builder.Environment.EnvironmentName);
+Console.WriteLine("debug: Environment: {0}", env);
 foreach (var c in builder.Configuration.AsEnumerable())
 {
     Console.WriteLine("debug: enum config: " + c.Key + " = " + c.Value);
