@@ -3,6 +3,7 @@
   * Link: https://dotnet.microsoft.com/en-us/download/dotnet/7.0
 
 ## How to Run the App
+### Development
 1) Open a Terminal
 2) Navigate into the solution folder (Studio-backend)
     * E.g.: cd 'C:\MyRepository\DotNet\Studio-backend'
@@ -13,6 +14,55 @@
     * dotnet Watch (INFO displayed)
 5) You can stop the application pressing the following key combination:
     * CTRL + C (First click on the terminal window)
+
+### Production
+Running the app with PostgreSQL
+
+#### Prerequisites
+1) PostgreSQL: You can install it using native package manager or running with docker
+    1) Windows
+
+       ```bash
+       winget install PostgreSQL.PostgreSQL
+       ```
+    2) Mac
+
+       ```bash
+       brew install postgresql
+       ```
+    
+    3) Docker
+
+       ```bash
+       docker run --rm -dit -e POSTGRES_USER=postgres \
+       -e POSTGRES_PASSWORD=postgres \
+       -e POSTGRES_DB=postgres \
+       postges
+       ```
+
+#### Steps
+1) Open a terminal
+2) Navigate into the solution folder (Studio-backend)
+   
+   ```bash
+   cd Studio-backend
+   ```
+3) Ensure the database credentials are correct in `./API/appsettings.json` 
+4) Initialize the PostgreSQL
+
+   ```bash
+   ASPNETCORE_ENVIRONMENT=Production dotnet-ef migrations add PostgresInitial -p Persistence -s API
+
+   ASPNETCORE_ENVIRONMENT=Production dotnet-ef database update -p Persistence -s API
+   ```
+5) Run the app
+
+   ```bash
+   make rerun
+
+   # or run the command below if you want to run the app on Development using PostgreSQL
+   ASPNETCORE_ENVIRONMENT=Production dotnet watch --project API
+   ```
 
 ## Important Information
 ### Hot Reload

@@ -15,14 +15,26 @@ namespace API.Extensions;
 public static class ServiceExtensions
 {
     public static IServiceCollection AddServiceExtensions(
-        this IServiceCollection services, IConfiguration configuration)
+        this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddDbContext<DataContext>(opt =>
         {
-            opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+            string connStr = configuration.GetConnectionString("DefaultConnection");
+            string env = environment.EnvironmentName;
+            // Console.WriteLine("debug: Environment: {0}", env);
+            // Console.WriteLine("debug: Connection String: {0}", connStr);
+
+            if (env == "Development")
+            {
+                opt.UseSqlite(connStr);
+            }
+            else
+            {
+                opt.UseNpgsql(connStr);
+            }
         });
         services.AddCors(opt =>
         {

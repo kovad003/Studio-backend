@@ -29,7 +29,7 @@ foreach (var c in builder.Configuration.AsEnumerable())
 }
 // end
 
-builder.Services.AddServiceExtensions(builder.Configuration);
+builder.Services.AddServiceExtensions(builder.Configuration, builder.Environment);
 builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
