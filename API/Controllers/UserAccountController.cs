@@ -1,11 +1,11 @@
 using System.Security.Claims;
 using API.DTOs;
 using API.Services;
+using API.Tools;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
@@ -34,7 +34,7 @@ public class UserAccountController : ControllerBase
 
         if (result)
         {
-            return await CreateUserDto(user);
+            return await CreateUserDto(user, true);
         }
 
         return Unauthorized();
@@ -45,20 +45,28 @@ public class UserAccountController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
-        // if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.UserName))
-        // {
-        //     return BadRequest("Username is already taken");
-        // }
+        string userName;
+        int number = 0;
+        do
+        {
+            number++;
+            userName = UsernameGenerator.Generate(registerDto, number);
+            
+            var u = await _userManager.FindByNameAsync(userName);
+            if (u != null)
+                userName = null;
 
+        } while (userName == null);
+        
         var user = new User
         {
-            UserName = registerDto.UserName,
+            // UserName = registerDto.UserName,
+            UserName = userName,
             FirstName = registerDto.FirstName,
             LastName = registerDto.LastName,
             Email = registerDto.Email,
-            Bio = registerDto.Bio,
+            // Bio = registerDto.Bio,
             Company = registerDto.Company,
-            Avatar = registerDto.Avatar,
             PhoneNumber = registerDto.PhoneNumber,
         };
 
@@ -68,7 +76,7 @@ public class UserAccountController : ControllerBase
             result = await _userManager.AddToRoleAsync(user, registerDto.Role);
            
         if (result.Succeeded)
-            return await CreateUserDto(user);
+            return await CreateUserDto(user, false);
        
         return BadRequest(result.Errors);
     }
@@ -78,12 +86,16 @@ public class UserAccountController : ControllerBase
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
         var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-        return await CreateUserDto(user);
+        return await CreateUserDto(user, true);
     }
 
-    private async Task<ActionResult<UserDto>> CreateUserDto(User user)
+    private async Task<ActionResult<UserDto>> CreateUserDto(User user, bool hasToken)
     {
         var userRole = await _userManager.GetRolesAsync(user);
+        string token = null;
+
+        if (hasToken)
+            token = await _tokenService.CreateToken(user);
         
         return new UserDto()
         {
@@ -92,10 +104,10 @@ public class UserAccountController : ControllerBase
             LastName = user.LastName,
             Bio = user.Bio,
             Company = user.Company,
-            Avatar = user.Avatar,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            Token = await _tokenService.CreateToken(user),
+            // Token = await _tokenService.CreateToken(user),
+            Token = token,
             Role = userRole.FirstOrDefault(),
         };
     }
