@@ -83,6 +83,8 @@ public class UserAccountController : ControllerBase
 
     private async Task<ActionResult<UserDto>> CreateUserDto(User user)
     {
+        var userRole = await _userManager.GetRolesAsync(user);
+        
         return new UserDto()
         {
             UserName = user.UserName,
@@ -94,6 +96,7 @@ public class UserAccountController : ControllerBase
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             Token = await _tokenService.CreateToken(user),
+            Role = userRole.FirstOrDefault(),
         };
     }
 }
