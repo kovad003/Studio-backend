@@ -2,10 +2,13 @@ using System.Security.Claims;
 using API.DTOs;
 using API.Services;
 using API.Tools;
+using Application.Profiles;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ProfileDto = API.DTOs.ProfileDto;
 
 namespace API.Controllers;
 
@@ -45,6 +48,9 @@ public class UserAccountController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
+        if (registerDto == null)
+            return BadRequest("Username cannot be generated!");
+        
         string userName;
         int number = 0;
         do
@@ -80,6 +86,29 @@ public class UserAccountController : ControllerBase
        
         return BadRequest(result.Errors);
     }
+    
+    [Authorize(Roles = "Client")]
+    [HttpPut]
+    // [Route("UpdateProfile")]
+    public async Task<ActionResult<UserDto>> UpdateProfile(ProfileDto dto)
+    {
+        var user = await _userManager.FindByIdAsync(dto.Id);
+        if (user == null)
+            return BadRequest("User not found in DB");
+
+        // Updating user object:
+        user.FirstName = dto.FirstName;
+        user.LastName = dto.LastName;
+        user.Bio = dto.Bio;
+        user.PhoneNumber = dto.PhoneNumber;
+        user.Email = dto.Email;
+
+        // Updating DB
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+            return await CreateUserDto(user, false);
+        return BadRequest(result.Errors);
+    }
 
     [Authorize]
     [HttpGet]
@@ -99,6 +128,7 @@ public class UserAccountController : ControllerBase
         
         return new UserDto()
         {
+            Id = user.Id,
             UserName = user.UserName,
             FirstName = user.FirstName,
             LastName = user.LastName,

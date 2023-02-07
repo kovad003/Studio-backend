@@ -15,5 +15,5 @@ public class ProjectDto
     public string Attachment { get; set; }
     public string Client { get; set; }
     
-    public Profile Owner { get; set; }
+    public ProfileDto Owner { get; set; }
 }
