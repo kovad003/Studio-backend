@@ -7,6 +7,151 @@
 	},
 	"item": [
 		{
+			"name": "CRUD",
+			"item": [
+				{
+					"name": "Get All Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/useraccount/get-users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"useraccount",
+								"get-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Jason\",\r\n    \"lastName\": \"Voorhees\",\r\n    \"email\": \"vorhees@flashion.de\",\r\n    \"phoneNumber\": \"+358111111111\",\r\n    \"bio\": \"This is Jason. Nice to meet ya!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/useraccount/update-profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"useraccount",
+								"update-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"d2f1887a-faf2-4e34-8a89-cd05b561e570\",\r\n    \"currentpassword\": \"Pa$$W0rd\",\r\n    \"newpassword\": \"Pa$$W0rd-Pa$$W0rd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/useraccount/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"useraccount",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User {id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/useraccount/delete-profile/a08164a9-15f1-4dfc-b396-2c3e64e42d70",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"useraccount",
+								"delete-profile",
+								"a08164a9-15f1-4dfc-b396-2c3e64e42d70"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Login",
 			"item": [
 				{
@@ -251,6 +396,66 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Login as Jason (Client)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const user = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Has properties\", function () {\r",
+											"    pm.expect(user).to.have.property('userName');\r",
+											"    pm.expect(user).to.have.property('firstName');\r",
+											"    pm.expect(user).to.have.property('lastName');\r",
+											"    pm.expect(user).to.have.property('bio');\r",
+											"    pm.expect(user).to.have.property('company');\r",
+											"    pm.expect(user).to.have.property('email');\r",
+											"    pm.expect(user).to.have.property('phoneNumber');\r",
+											"    pm.expect(user).to.have.property('avatar');\r",
+											"    pm.expect(user).to.have.property('token');\r",
+											"});\r",
+											"\r",
+											"if (pm.test(\"Has properties\")) {\r",
+											"    pm.globals.set('token', user.token);\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Global token has been set\", function() {\r",
+											"    var token = pm.globals.get('token');\r",
+											"    pm.expect(token).to.eql(user.token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"jason@flashion.de\",\r\n    \"password\": \"Pa$$W0rd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/useraccount/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"useraccount",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -352,7 +557,7 @@
 					"name": "Success",
 					"item": [
 						{
-							"name": "Register User",
+							"name": "Register Jason (client)",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -364,7 +569,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userName\": \"flash_boiii\",\r\n    \"firstName\": \"Jason\",\r\n    \"lastName\": \"Voorhees\",\r\n    \"bio\": \"About me...\",\r\n    \"company\": \"Flashion LTD\",\r\n    \"avatar\": \"placeholder: Avatar\",\r\n    \"email\": \"jason@flashion.de\",\r\n    \"phoneNumber\": \"+35889512752\",\r\n    \"password\": \"Pa$$W0rd\",\r\n    \"role\": \"Client\"\r\n}",
+									"raw": "{\r\n    \"firstName\": \"Jason\",\r\n    \"lastName\": \"Voorhees\",\r\n    \"company\": \"Flashion LTD\",\r\n    \"email\": \"jason@flashion.de\",\r\n    \"phoneNumber\": \"+35889512752\",\r\n    \"password\": \"Pa$$W0rd\",\r\n    \"role\": \"Client\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -372,14 +577,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/api/useraccount/register",
+									"raw": "{{url}}/api/useraccount/register-client",
 									"host": [
 										"{{url}}"
 									],
 									"path": [
 										"api",
 										"useraccount",
-										"register"
+										"register-client"
 									]
 								}
 							},
