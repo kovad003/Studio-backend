@@ -1,11 +1,13 @@
-using System.Security.Claims;
 using API.DTOs;
 using API.Services;
+using API.Tools;
 using Domain;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProfileDto = API.DTOs.ProfileDto;
 
 namespace API.Controllers;
 
@@ -15,11 +17,13 @@ public class UserAccountController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
     private readonly TokenService _tokenService;
+    private readonly UserAccessor _userAccessor;
 
-    public UserAccountController(UserManager<User> userManager, TokenService tokenService)
+    public UserAccountController(UserManager<User> userManager, TokenService tokenService, UserAccessor userAccessor)
     {
         _userManager = userManager;
         _tokenService = tokenService;
+        _userAccessor = userAccessor;
     }
 
     [AllowAnonymous]
@@ -34,7 +38,7 @@ public class UserAccountController : ControllerBase
 
         if (result)
         {
-            return await CreateUserDto(user);
+            return await CreateUserDto(user, true);
         }
 
         return Unauthorized();
@@ -42,23 +46,34 @@ public class UserAccountController : ControllerBase
 
     // [AllowAnonymous]
     [Authorize(Roles = "Admin")]
-    [HttpPost("register")]
+    [HttpPost("register-client")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
-        // if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.UserName))
-        // {
-        //     return BadRequest("Username is already taken");
-        // }
+        if (registerDto == null)
+            return BadRequest("Username cannot be generated!");
+        
+        string userName;
+        int number = 0;
+        do
+        {
+            number++;
+            userName = UsernameGenerator.Generate(registerDto, number);
+            
+            var u = await _userManager.FindByNameAsync(userName);
+            if (u != null)
+                userName = null;
 
+        } while (userName == null);
+        
         var user = new User
         {
-            UserName = registerDto.UserName,
+            // UserName = registerDto.UserName,
+            UserName = userName,
             FirstName = registerDto.FirstName,
             LastName = registerDto.LastName,
             Email = registerDto.Email,
-            Bio = registerDto.Bio,
+            // Bio = registerDto.Bio,
             Company = registerDto.Company,
-            Avatar = registerDto.Avatar,
             PhoneNumber = registerDto.PhoneNumber,
         };
 
@@ -68,8 +83,84 @@ public class UserAccountController : ControllerBase
             result = await _userManager.AddToRoleAsync(user, registerDto.Role);
            
         if (result.Succeeded)
-            return await CreateUserDto(user);
+            return await CreateUserDto(user, false);
        
+        return BadRequest(result.Errors);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("delete-profile/{id}")]
+    public async Task<ActionResult> DeleteProfile(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user == null)
+            return NotFound();
+
+        var result = await _userManager.DeleteAsync(user);
+
+        if (result.Succeeded)
+            return Ok("User deleted successfully");
+
+        return BadRequest(result.Errors);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet("get-users")]
+    public async Task<ActionResult<List<UserDto>>> GetUsers()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        
+        var userDtos = new List<UserDto>();
+
+        foreach (var user in users)
+        {
+            var dto = await CreateUserDto(user, false);
+            userDtos.Add(dto.Value);
+        }
+        
+        return Ok(userDtos);
+    }
+
+    [Authorize(Roles = "Client")]
+    [HttpPut("update-profile")]
+    public async Task<ActionResult<UserDto>> UpdateProfile(ProfileDto dto)
+    {
+        var id = _userAccessor.GetUserId();
+        
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+            return BadRequest("User not found in DB");
+
+        // Updating user object:
+        user.FirstName = dto.FirstName;
+        user.LastName = dto.LastName;
+        user.Bio = dto.Bio;
+        user.PhoneNumber = dto.PhoneNumber;
+        user.Email = dto.Email;
+
+        // Updating DB
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+            return await CreateUserDto(user, false);
+        return BadRequest(result.Errors);
+    }
+    
+    [Authorize(Roles = "Client")]
+    [HttpPut("change-password")]
+    // [Route("UpdateProfile")]
+    public async Task<ActionResult<UserDto>> ChangePassword(PasswordDto dto)
+    {
+        var id = _userAccessor.GetUserId();
+        
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+            return BadRequest("User not found in DB");
+
+        var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+        
+        if (result.Succeeded)
+            return await CreateUserDto(user, true);
         return BadRequest(result.Errors);
     }
 
@@ -77,23 +168,33 @@ public class UserAccountController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
-        var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-        return await CreateUserDto(user);
+        // var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+        var id = _userAccessor.GetUserId();
+        var user = await _userManager.FindByIdAsync(id);
+        return await CreateUserDto(user, true);
     }
 
-    private async Task<ActionResult<UserDto>> CreateUserDto(User user)
+    private async Task<ActionResult<UserDto>> CreateUserDto(User user, bool hasToken)
     {
+        var userRole = await _userManager.GetRolesAsync(user);
+        string token = null;
+
+        if (hasToken)
+            token = await _tokenService.CreateToken(user);
+        
         return new UserDto()
         {
+            Id = user.Id,
             UserName = user.UserName,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Bio = user.Bio,
             Company = user.Company,
-            Avatar = user.Avatar,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            Token = await _tokenService.CreateToken(user),
+            // Token = await _tokenService.CreateToken(user),
+            Token = token,
+            Role = userRole.FirstOrDefault(),
         };
     }
 }

@@ -1,6 +1,6 @@
 namespace Application.Profiles;
 
-public class Profile
+public class ProfileDto
 {
     // Automapper.ProjectTo gives an error to Guid type!
     // If string is not ok for the Id than it must be mapped manually

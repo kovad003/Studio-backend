@@ -17,7 +17,7 @@ public class MappingProfiles : Profile
             .ForMember(destination => destination.Owner, 
                 option => option.MapFrom(
                     source => source.Owner));
-        CreateMap<User, Profiles.Profile>()
+        CreateMap<User, Profiles.ProfileDto>()
             // .ForMember(destination => destination.Id, option => option.MapFrom(source => source.Id))
             .ForMember(destination => destination.UserName, option => option.MapFrom(source => source.UserName))
             .ForMember(destination => destination.FirstName, option => option.MapFrom(source => source.FirstName))
