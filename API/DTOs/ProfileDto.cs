@@ -4,7 +4,6 @@ namespace API.DTOs;
 
 public class ProfileDto
 {
-    public string Id { get; set; }
     [Required]
     public string FirstName { get; set; }
     [Required]

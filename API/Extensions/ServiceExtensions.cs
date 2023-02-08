@@ -37,12 +37,13 @@ public static class ServiceExtensions
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining<Create>();
         services.AddHttpContextAccessor();
+        services.AddTransient<UserAccessor>();
         services.AddScoped<IUserAccessor, UserAccessor>();
         services.AddScoped<IPhotoAccessor, PhotoAccessor>();
         // String must match with attribute within appsettings.json:
         services.Configure<PhotoCloudSettings>(configuration.GetSection("Cloudinary"));
         services.AddSignalR();
-        
+
         return services;
     }
 }

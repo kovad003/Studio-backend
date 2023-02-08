@@ -4,6 +4,7 @@ using API.Services;
 using API.Tools;
 using Application.Profiles;
 using Domain;
+using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,11 +19,13 @@ public class UserAccountController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
     private readonly TokenService _tokenService;
+    private UserAccessor _userAccessor;
 
-    public UserAccountController(UserManager<User> userManager, TokenService tokenService)
+    public UserAccountController(UserManager<User> userManager, TokenService tokenService, UserAccessor userAccessor)
     {
         _userManager = userManager;
         _tokenService = tokenService;
+        _userAccessor = userAccessor;
     }
 
     [AllowAnonymous]
@@ -92,7 +95,9 @@ public class UserAccountController : ControllerBase
     // [Route("UpdateProfile")]
     public async Task<ActionResult<UserDto>> UpdateProfile(ProfileDto dto)
     {
-        var user = await _userManager.FindByIdAsync(dto.Id);
+        var id = _userAccessor.GetUserId();
+        
+        var user = await _userManager.FindByIdAsync(id);
         if (user == null)
             return BadRequest("User not found in DB");
 
@@ -115,14 +120,16 @@ public class UserAccountController : ControllerBase
     // [Route("UpdateProfile")]
     public async Task<ActionResult<UserDto>> ChangePassword(PasswordDto dto)
     {
-        var user = await _userManager.FindByIdAsync(dto.Id);
+        var id = _userAccessor.GetUserId();
+        
+        var user = await _userManager.FindByIdAsync(id);
         if (user == null)
             return BadRequest("User not found in DB");
 
         var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
         
         if (result.Succeeded)
-            return await CreateUserDto(user, false);
+            return await CreateUserDto(user, true);
         return BadRequest(result.Errors);
     }
 
@@ -130,7 +137,9 @@ public class UserAccountController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
-        var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+        // var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+        var id = _userAccessor.GetUserId();
+        var user = await _userManager.FindByIdAsync(id);
         return await CreateUserDto(user, true);
     }
 
@@ -144,7 +153,6 @@ public class UserAccountController : ControllerBase
         
         return new UserDto()
         {
-            Id = user.Id,
             UserName = user.UserName,
             FirstName = user.FirstName,
             LastName = user.LastName,
