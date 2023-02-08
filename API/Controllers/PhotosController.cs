@@ -1,5 +1,4 @@
 using Application.Photos;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
