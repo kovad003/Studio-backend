@@ -16,7 +16,7 @@ public class UserAccountController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
     private readonly TokenService _tokenService;
-    private UserAccessor _userAccessor;
+    private readonly UserAccessor _userAccessor;
 
     public UserAccountController(UserManager<User> userManager, TokenService tokenService, UserAccessor userAccessor)
     {
@@ -86,10 +86,26 @@ public class UserAccountController : ControllerBase
        
         return BadRequest(result.Errors);
     }
-    
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("delete-profile/{id}")]
+    public async Task<ActionResult> DeleteProfile(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user == null)
+            return NotFound();
+
+        var result = await _userManager.DeleteAsync(user);
+
+        if (result.Succeeded)
+            return Ok("User deleted successfully");
+
+        return BadRequest(result.Errors);
+    }
+
     [Authorize(Roles = "Client")]
     [HttpPut("update-profile")]
-    // [Route("UpdateProfile")]
     public async Task<ActionResult<UserDto>> UpdateProfile(ProfileDto dto)
     {
         var id = _userAccessor.GetUserId();

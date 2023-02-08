@@ -14,7 +14,19 @@ public class DataContext : IdentityDbContext<User, Role, string>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
+        
+        // If project is deleted derived photos will be deleted as well.
+        builder.Entity<User>()
+            .HasMany(user => user.Projects)
+            .WithOne(project => project.Owner)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // If project owner is deleted derived comments will be deleted as well.
+            builder.Entity<Project>()
+            .HasOne(project => project.Owner)
+            .WithMany(owner => owner.Projects)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         // If project is deleted derived photos will be deleted as well.
         // builder.Entity<Photo>()
         //     .HasOne(photo => photo.Project)
@@ -27,10 +39,6 @@ public class DataContext : IdentityDbContext<User, Role, string>
             .WithMany(project => project.Comments)
             .OnDelete(DeleteBehavior.Cascade);
         
-        // If project owner is deleted derived comments will be deleted as well.
-        // builder.Entity<Project>()
-        //     .HasOne(project => project.Owner)
-        //     .WithMany(owner => owner.Projects)
-        //     .OnDelete(DeleteBehavior.Cascade);
+
     }
 }
