@@ -45,7 +45,7 @@ public class UserAccountController : ControllerBase
 
     // [AllowAnonymous]
     [Authorize(Roles = "Admin")]
-    [HttpPost("register")]
+    [HttpPost("register-client")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (registerDto == null)
@@ -88,7 +88,7 @@ public class UserAccountController : ControllerBase
     }
     
     [Authorize(Roles = "Client")]
-    [HttpPut]
+    [HttpPut("update-profile")]
     // [Route("UpdateProfile")]
     public async Task<ActionResult<UserDto>> UpdateProfile(ProfileDto dto)
     {
@@ -105,6 +105,22 @@ public class UserAccountController : ControllerBase
 
         // Updating DB
         var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+            return await CreateUserDto(user, false);
+        return BadRequest(result.Errors);
+    }
+    
+    [Authorize(Roles = "Client")]
+    [HttpPut("change-password")]
+    // [Route("UpdateProfile")]
+    public async Task<ActionResult<UserDto>> ChangePassword(PasswordDto dto)
+    {
+        var user = await _userManager.FindByIdAsync(dto.Id);
+        if (user == null)
+            return BadRequest("User not found in DB");
+
+        var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+        
         if (result.Succeeded)
             return await CreateUserDto(user, false);
         return BadRequest(result.Errors);
