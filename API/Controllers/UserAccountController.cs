@@ -6,6 +6,7 @@ using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProfileDto = API.DTOs.ProfileDto;
 
 namespace API.Controllers;
@@ -104,6 +105,23 @@ public class UserAccountController : ControllerBase
         return BadRequest(result.Errors);
     }
 
+    [Authorize(Roles = "Admin")]
+    [HttpGet("get-users")]
+    public async Task<ActionResult<List<UserDto>>> GetUsers()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        
+        var userDtos = new List<UserDto>();
+
+        foreach (var user in users)
+        {
+            var dto = await CreateUserDto(user, false);
+            userDtos.Add(dto.Value);
+        }
+        
+        return Ok(userDtos);
+    }
+
     [Authorize(Roles = "Client")]
     [HttpPut("update-profile")]
     public async Task<ActionResult<UserDto>> UpdateProfile(ProfileDto dto)
@@ -166,6 +184,7 @@ public class UserAccountController : ControllerBase
         
         return new UserDto()
         {
+            Id = user.Id,
             UserName = user.UserName,
             FirstName = user.FirstName,
             LastName = user.LastName,
