@@ -1,11 +1,8 @@
-using System.Security.Claims;
 using API.DTOs;
 using API.Services;
 using API.Tools;
-using Application.Profiles;
 using Domain;
 using Infrastructure.Security;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
