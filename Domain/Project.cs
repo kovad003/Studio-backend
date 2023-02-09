@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Domain;
+﻿namespace Domain;
 
 /// <summary>
 /// AUTHOR: @Dan
@@ -16,9 +14,6 @@ public class Project
     public DateTime CreatedOn { get; set; }
     public DateTime? CompletedOn { get; set; }
     public string Description { get; set; }
-    public string Image { get; set; }
-    public string Attachment { get; set; }
-    public string Client { get; set; }
 
     // One-to-many rel.
     public User Owner { get; set; }

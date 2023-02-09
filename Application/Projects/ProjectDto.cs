@@ -1,5 +1,6 @@
+using Application.Comments;
+using Application.Photos;
 using Application.Profiles;
-using Domain;
 
 namespace Application.Projects;
 
@@ -11,9 +12,7 @@ public class ProjectDto
     public DateTime CreatedOn { get; set; }
     public DateTime? CompletedOn { get; set; }
     public string Description { get; set; }
-    public string Image { get; set; }
-    public string Attachment { get; set; }
-    public string Client { get; set; }
-    
+    public ICollection<PhotoDto> Photos { get; set; }
+    public ICollection<CommentDto> Comments { get; set; }
     public ProfileDto Owner { get; set; }
 }

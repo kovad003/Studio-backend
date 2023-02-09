@@ -28,10 +28,10 @@ public class DataContext : IdentityDbContext<User, Role, string>
             .OnDelete(DeleteBehavior.Cascade);
         
         // If project is deleted derived photos will be deleted as well.
-        // builder.Entity<Photo>()
-        //     .HasOne(photo => photo.Project)
-        //     .WithMany(project => project.Photos)
-        //     .OnDelete(DeleteBehavior.Cascade);
+        builder.Entity<Photo>()
+            .HasOne(photo => photo.Project)
+            .WithMany(project => project.Photos)
+            .OnDelete(DeleteBehavior.Cascade);
         
         // If project is deleted derived comments will be deleted as well.
         builder.Entity<Comment>()
