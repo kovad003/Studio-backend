@@ -122,9 +122,6 @@ namespace Persistence
                     Description = "Will be sold for cross fitters. We have 3 different colors, " +
                                   "so we need 3 different models for the photos. We need a bunch of photos taken" +
                                   "outdoors. Also take some images inside (studio environment)",
-                    Image = "Images will be uploaded here",
-                    Attachment = "Attachments will be uploaded here",
-                    Client = "PROP IS TO BE REMOVED",
                     Owner = clients[0]
                 },
                 new Project
@@ -136,9 +133,6 @@ namespace Persistence
                     Description = "Will be sold for marathon runners and joggers. We have 5 different colors. " +
                                   "We need 2 different models for the photos. Photos must be taken next to " +
                                   "a river bank.",
-                    Image = "Images will be uploaded here",
-                    Attachment = "Attachments will be uploaded here",
-                    Client = "PROP IS TO BE REMOVED",
                     Owner = clients[0]
                 },
                 new Project
@@ -149,9 +143,6 @@ namespace Persistence
                     Description = "The soccer ball will be used to advertise the upcoming football league. " +
                                   "The atmosphere of the photos must be bright. The photo model should" +
                                   "wear red soccer jersey (it will be sent with the package).",
-                    Image = "Images will be uploaded here",
-                    Attachment = "Attachments will be uploaded here",
-                    Client = "PROP IS TO BE REMOVED",
                     Owner = clients[1]
                 }
             };
