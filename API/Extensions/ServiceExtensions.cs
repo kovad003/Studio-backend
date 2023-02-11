@@ -27,13 +27,13 @@ public static class ServiceExtensions
             // Console.WriteLine("debug: Environment: {0}", env);
             // Console.WriteLine("debug: Connection String: {0}", connStr);
 
-            if (env == "Development")
+            if (env == "Production")
             {
-                opt.UseSqlite(connStr);
+                opt.UseNpgsql(connStr);
             }
             else
             {
-                opt.UseNpgsql(connStr);
+                opt.UseSqlite(connStr);
             }
         });
         services.AddCors(opt =>
