@@ -2,7 +2,7 @@ TAG := studio-backend
 
 init:
 	ASPNETCORE_ENVIRONMENT=Production dotnet-ef migrations add PostgresInitial -p Persistence -s API
-	ASPNETCORE_ENVIRONMENT=Production dotnet-ef database update -p Persistence -s API
+	# ASPNETCORE_ENVIRONMENT=Production dotnet-ef database update -p Persistence -s API
 
 docker-run:
 	docker run --rm -it \
@@ -21,10 +21,13 @@ rerun: publish
 dev-rerun: publish
 	cd out/ && ASPNETCORE_ENVIRONMENT=Development dotnet API.dll
 
+dev-watch: 
+	ASPNETCORE_ENVIRONMENT=Development dotnet watch --project API
+
 restore:
 	dotnet restore "Studio-backend.sln"
 
-publish: clean
+publish: clean-out
 	dotnet publish -c Release -o out
 
 clean: clean-out clean-migration
