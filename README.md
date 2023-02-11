@@ -73,26 +73,33 @@ Running the app with PostgreSQL
 6. Run the app
 
    ```bash
-   # for deployment on production
+   # if you have Gnu Make
    make rerun
 
-   # or run the command below if you want to run the app on Development using PostgreSQL
-   ASPNETCORE_ENVIRONMENT=Production dotnet watch --project API
+   # or 
+   dotnet publish -c Release -o out
+   cd out/ && dotnet API.dll
    ```
 
-7. Connect to the PostrgeSQL
+7. Connect to the PostgreSQL container
+
+   ```bash
+   docker exec -it postgres /bin/bash
+   ```
+
+8. Connect to the PostgreSQL
 
    ```bash
    psql -U postgres -W
    ```
 
-8. Connect to the database
+9. Connect to the database
 
    ```postgresql
    \c studio
    ```
 
-9. Commonly used PostgreSQL commands
+10. Commonly used PostgreSQL commands
 
    ```postgresql
    # list databases
