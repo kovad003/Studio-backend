@@ -40,5 +40,23 @@ public class DataContext : IdentityDbContext<User, Role, string>
             .OnDelete(DeleteBehavior.Cascade);
         
 
+        // public override int SaveChanges()
+        // {
+        //     // Get a list of all deleted photos
+        //     var deletedPhotos = ChangeTracker.Entries<Photo>()
+        //         .Where(e => e.State == EntityState.Deleted)
+        //         .Select(e => e.Entity)
+        //         .ToList();
+        //         
+        //     // Delete the corresponding images from Cloudinary for each deleted photo
+        //     foreach (var photo in deletedPhotos)
+        //     {
+        //         // DeleteImageFromCloudinary(photo.Url);
+        //     }
+        //         
+        //     // Call the base implementation of SaveChanges to persist the changes to the database
+        //     return base.SaveChanges();
+        // }
+        
     }
 }

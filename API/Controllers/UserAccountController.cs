@@ -1,12 +1,14 @@
 using API.DTOs;
 using API.Services;
 using API.Tools;
+using Application.Interfaces;
 using Domain;
 using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 using ProfileDto = API.DTOs.ProfileDto;
 
 namespace API.Controllers;
@@ -18,12 +20,17 @@ public class UserAccountController : ControllerBase
     private readonly UserManager<User> _userManager;
     private readonly TokenService _tokenService;
     private readonly UserAccessor _userAccessor;
+    private readonly DataContext _dataContext;
+    private readonly IPhotoAccessor _photoAccessor;
 
-    public UserAccountController(UserManager<User> userManager, TokenService tokenService, UserAccessor userAccessor)
+    public UserAccountController(UserManager<User> userManager, 
+        TokenService tokenService, UserAccessor userAccessor, DataContext dataContext, IPhotoAccessor photoAccessor)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _userAccessor = userAccessor;
+        _dataContext = dataContext;
+        _photoAccessor = photoAccessor;
     }
 
     [AllowAnonymous]
@@ -96,11 +103,19 @@ public class UserAccountController : ControllerBase
 
         if (user == null)
             return NotFound();
+        
+        var photos = _dataContext.Photos
+            .Include(p => p.Project)
+            .Where(p => p.Project.Owner.Id == id).ToList();
 
         var result = await _userManager.DeleteAsync(user);
 
         if (result.Succeeded)
+        {
+            foreach (var photo in photos)
+                await _photoAccessor.DeletePhoto(photo.Id);
             return Ok("User deleted successfully");
+        }
 
         return BadRequest(result.Errors);
     }
