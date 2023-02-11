@@ -11,6 +11,5 @@ public class ProjectValidator : AbstractValidator<Project>
         RuleFor(x => x.IsActive).NotNull();
         RuleFor(x => x.CreatedOn).NotEmpty();
         RuleFor(x => x.Description).NotEmpty();
-        RuleFor(x => x.Client).NotEmpty();
     }
 }
