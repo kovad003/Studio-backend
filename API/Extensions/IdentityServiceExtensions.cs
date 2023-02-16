@@ -2,8 +2,10 @@ using System.Text;
 using API.Services;
 using Domain;
 using Infrastructure.Security;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 
@@ -19,15 +21,33 @@ public static class IdentityServiceExtensions
                 settings.Password.RequireNonAlphanumeric = false;
                 settings.Password.RequireUppercase = true;
                 settings.User.RequireUniqueEmail = true;
+
+                // Lockout settings
+                settings.Lockout.AllowedForNewUsers = true;
+                settings.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                settings.Lockout.MaxFailedAccessAttempts = 3;
             })
             .AddRoles<Role>()
+            .AddSignInManager<SignInManager<User>>()
             .AddEntityFrameworkStores<DataContext>();
+            
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(option =>
+        services.AddAuthentication(options =>
             {
-                option.TokenValidationParameters = new TokenValidationParameters
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.Cookie.Name = "YourCookieName";
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
+                options.SlidingExpiration = true;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = key,
@@ -35,7 +55,7 @@ public static class IdentityServiceExtensions
                     ValidateAudience = false
                 };
                 // Authenticating to SignalR
-                option.Events = new JwtBearerEvents
+                options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>
                     {
@@ -46,7 +66,8 @@ public static class IdentityServiceExtensions
                         return Task.CompletedTask;
                     }
                 };
-            });
+            })
+            .AddIdentityCookies();
         services.AddAuthorization(options =>
         {
             // Role-based Policies:
