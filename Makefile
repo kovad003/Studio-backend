@@ -33,7 +33,7 @@ publish: clean-out
 clean: clean-out clean-migration
 	
 clean-out:
-	find . -iname bin -o -iname obj -o -iname out | xargs -I{} rm -rf "{}"
+	find . -iname bin -o -iname obj -o -iname out -not -path '*/\.git/*' | xargs -I{} rm -rf "{}"
 
 clean-migration:
 	ASPNETCORE_ENVIRONMENT=Production dotnet-ef database update 0 -p Persistence -s API
