@@ -18,15 +18,17 @@ namespace API.Controllers;
 public class UserAccountController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
     private readonly TokenService _tokenService;
     private readonly UserAccessor _userAccessor;
     private readonly DataContext _dataContext;
     private readonly IPhotoAccessor _photoAccessor;
 
     public UserAccountController(UserManager<User> userManager, 
-        TokenService tokenService, UserAccessor userAccessor, DataContext dataContext, IPhotoAccessor photoAccessor)
+        TokenService tokenService, UserAccessor userAccessor, DataContext dataContext, IPhotoAccessor photoAccessor, SignInManager<User> signInManager)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
         _tokenService = tokenService;
         _userAccessor = userAccessor;
         _dataContext = dataContext;
@@ -39,14 +41,26 @@ public class UserAccountController : ControllerBase
     {
         var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
-        if (user == null) return Unauthorized();
-
-        var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
-
-        if (result)
+        if (user == null)
         {
+            // await _userManager.AccessFailedAsync(null);
+            return Unauthorized();
+        }
+
+        // var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+        var result = await _signInManager.PasswordSignInAsync(user, loginDto.Password, isPersistent: false, lockoutOnFailure: true);
+
+        if (result.Succeeded)
+        {
+            await _userManager.ResetAccessFailedCountAsync(user);
             return await CreateUserDto(user, true);
         }
+        if (result.IsLockedOut)
+        {
+            // Handle locked-out user
+            return BadRequest($"This account is locked out for {user.LockoutEnd.Value.UtcDateTime:yyyy-MM-dd HH:mm:ss} UTC.");
+        }
+        // await _userManager.AccessFailedAsync(user);
 
         return Unauthorized();
     }
@@ -135,6 +149,17 @@ public class UserAccountController : ControllerBase
         }
         
         return Ok(userDtos);
+    }
+    
+    [Authorize(Roles = "Admin")]
+    [HttpGet("get-user/{id}")]
+    public async Task<ActionResult<UserDto>> GetUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+            return NotFound();
+        
+        return await CreateUserDto(user, false);
     }
 
     [Authorize(Roles = "Client")]

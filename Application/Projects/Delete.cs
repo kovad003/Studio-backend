@@ -37,19 +37,19 @@ public class Delete
             var photos = _dataContext.Photos
                 .Include(p => p.Project)
                 .Where(p => p.Project.Owner.Id == project.Owner.Id).ToList();
-            
-            // Deleting Project from DB
-            _dataContext.Remove(project);
-            var result = await _dataContext.SaveChangesAsync() > 0;
-            if (!result)
-                return Result<Unit>.Failure("Failed to delete project");
-            
+
             // Deleting photos from the cloud
             string photoResult = null;
             foreach (var photo in photos)
                 photoResult = await _photoAccessor.DeletePhoto(photo.Id);
             if (photoResult == null)
                 return Result<Unit>.Failure("Failed to delete photos from Cloudianry");
+            
+            // Deleting Project from DB
+            _dataContext.Remove(project);
+            var result = await _dataContext.SaveChangesAsync() > 0;
+            if (!result)
+                return Result<Unit>.Failure("Failed to delete project");
             
             // Return SUCCESS
             return Result<Unit>.Success(Unit.Value);

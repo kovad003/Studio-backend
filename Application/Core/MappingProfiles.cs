@@ -21,6 +21,7 @@ public class MappingProfiles : Profile
             // .ForMember(destination => destination.Id, option => option.MapFrom(source => source.Id))
             .ForMember(destination => destination.UserName, option => option.MapFrom(source => source.UserName))
             .ForMember(destination => destination.FirstName, option => option.MapFrom(source => source.FirstName))
+            .ForMember(destination => destination.LastName, option => option.MapFrom(source => source.LastName))
             .ForMember(destination => destination.Email, option => option.MapFrom(source => source.Email))
             .ForMember(destination => destination.PhoneNumber, option => option.MapFrom(source => source.PhoneNumber))
             .ForMember(destination => destination.Bio, option => option.MapFrom(source => source.Bio));
