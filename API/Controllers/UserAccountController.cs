@@ -150,6 +150,17 @@ public class UserAccountController : ControllerBase
         
         return Ok(userDtos);
     }
+    
+    [Authorize(Roles = "Admin")]
+    [HttpGet("get-user/{id}")]
+    public async Task<ActionResult<UserDto>> GetUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+            return NotFound();
+        
+        return await CreateUserDto(user, false);
+    }
 
     [Authorize(Roles = "Client")]
     [HttpPut("update-profile")]
