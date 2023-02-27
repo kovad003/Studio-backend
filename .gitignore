@@ -7,6 +7,9 @@
 API/appsettings.json
 
 # added by me
+API/studio.db
+API/studio.db-shm
+API/studio.db-wal
 Application/[Oo]bj
 Application/[Bb]in
 API/[Oo]bj
@@ -502,3 +505,4 @@ $RECYCLE.BIN/
 
 # Published folder
 out/
+
