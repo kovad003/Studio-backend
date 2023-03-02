@@ -40,7 +40,7 @@ public class ProjectsController : BaseController
         return HandleResult(result);
     }
     
-    [Authorize(Roles = "Client")]
+    [Authorize(Policy = "AdminOrClient")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProject(Guid id, Project project)
     {
