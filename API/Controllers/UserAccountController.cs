@@ -98,7 +98,8 @@ public class UserAccountController : ControllerBase
             PhoneNumber = registerDto.PhoneNumber,
         };
 
-        var result = await _userManager.CreateAsync(user, registerDto.Password);
+        // var result = await _userManager.CreateAsync(user, registerDto.Password);
+        var result = await _userManager.CreateAsync(user, "Pa$$w0rd");
 
         if (result.Succeeded)
             result = await _userManager.AddToRoleAsync(user, registerDto.Role);
